@@ -2,6 +2,8 @@
 #include "hashTable.h"
 #include "utils.h"
 
+// https://www.geeksforgeeks.org/dsa/hash-table-data-structure/
+
 /**
  * Compare 2 node based on their position and G cost
  * @param {Node} nodeA - first node
