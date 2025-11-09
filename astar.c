@@ -124,6 +124,9 @@ void astar(Snake *snake, Path *path, int tail, int move){
             }
 
             // recuperer un pointeur pour un nouveau node
+            if (nodeListSize >= LIST_MAX_SIZE){
+                exit(EXIT_FAILURE);
+            }
             Node *newNode = &nodeList[nodeListSize];
             nodeListSize++;
 
