@@ -62,11 +62,11 @@ void astar(Snake *snake, Path *path, int tail, int move){
     // liste qui garde toujour le node avec le cout le moin grande en 1er
     Heap minHeap; 
     createHeap(&minHeap, &startNode);
-    // liste pour verifier si un node a deja ete visité
+    // liste pour verifier si un node a deja ete visitÃ©
     HTNode* closedList[HT_MAX_SIZE] = {NULL};
 
     while(minHeap.size > 0){
-        // recuperer le node suivant et l'ajouter a la liste fermée
+        // recuperer le node suivant et l'ajouter a la liste fermÃ©e
         Node *currentNode = extractMin(&minHeap);
         add(closedList, currentNode, 1);
 
@@ -87,7 +87,7 @@ void astar(Snake *snake, Path *path, int tail, int move){
             int startIndex = 0;
             int endIndex = path->sizePath-1;
             while (startIndex < endIndex){
-                Pos temp = path->arrPos[startIndex];
+                Direction temp = path->arrPos[startIndex];
                 path->arrPos[startIndex] = path->arrPos[endIndex];
                 path->arrPos[endIndex] = temp;
                 startIndex++;
@@ -95,7 +95,7 @@ void astar(Snake *snake, Path *path, int tail, int move){
             }
             
             if (tail == 0){
-                // verifier que il y a un acces a la queue, empeche le serpent de s'enfermé sur lui meme
+                // verifier que il y a un acces a la queue, empeche le serpent de s'enfermÃ© sur lui meme
                 Snake virtualSnake;
                 Path tailPath;
                 vSnake(snake, path, &virtualSnake);

@@ -10,7 +10,7 @@
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
 
 Snake snake;
-Pos direction = { 1, 0 };
+Direction direction = { 1, 0 };
 
 Path path ;
 

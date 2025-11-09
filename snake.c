@@ -8,7 +8,7 @@
  * @param {Snake} snake -
  * @param {Pos} direction - the direction in which the snake is going
  */
-void run(Snake *snake, Pos direction){
+void run(Snake *snake, Direction direction){
     snake->direction = direction;
     newHead(snake);
 
@@ -26,7 +26,7 @@ void run(Snake *snake, Pos direction){
         snake->snakeSize += 1;  // Augmenter AVANT move
     }
 
-    // Décaler le serpent (en gardant la queue si ateFood)
+    // DÃ©caler le serpent (en gardant la queue si ateFood)
     for (int i = snake->snakeSize - 1; i > 0; i--){
         snake->snakePosition[i] = snake->snakePosition[i - 1];
     }
@@ -115,7 +115,7 @@ void setFood(Snake *snake) {
  * @param {Pos} b - the seconde direction
  * @return {int} - 1 if they are opposite else 0
  */
-int directionOpposite(Pos a, Pos b){
+int directionOpposite(Direction a, Direction b){
     return a.x == -b.x && a.y == -b.y;
 }
 

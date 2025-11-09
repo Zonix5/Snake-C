@@ -13,11 +13,17 @@ struct Pos{
     int y;
 };
 
-extern Pos directions[4];
+typedef struct Direction Direction;
+struct Direction{
+    int x;
+    int y;
+};
+
+extern Direction directions[4];
 
 typedef struct Path Path;
 struct Path{
-    Pos arrPos[LIST_MAX_SIZE];
+    Direction arrPos[LIST_MAX_SIZE];
     int sizePath;
 };
 
@@ -25,7 +31,7 @@ typedef struct Node Node;
 struct Node{
     Pos pos;
     Pos snakePos[SNAKE_MAX_SIZE];
-    Pos direction;
+    Direction direction;
     Node *parent;
     int snakeSize;
     int gCost;

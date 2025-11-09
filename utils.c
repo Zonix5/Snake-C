@@ -1,6 +1,6 @@
 #include "utils.h"
 
-Pos directions[4] = {
+Direction directions[4] = {
     {1, 0},
     {0, 1},
     {-1, 0},

@@ -18,15 +18,15 @@ struct Snake{
 
     int snakeSize;
 
-    Pos direction;
-    Pos oldDirection;
+    Direction direction;
+    Direction oldDirection;
     Pos snakePosition[SNAKE_MAX_SIZE];
     
     Pos snakeHead;
     Pos foodPosition;
 };
 
-void run(Snake *snake, Pos direction);
+void run(Snake *snake, Direction direction);
 
 void initSnake(Snake *snake);
 void setFood(Snake *snake);
@@ -34,7 +34,7 @@ void newHead(Snake *snake);
 void changeSide(Snake *snake);
 void move(Snake *snake);
 int isDead(Snake *snake);
-int directionOpposite(Pos a, Pos b);
+int directionOpposite(Direction a, Direction b);
 int isIn(Pos position, Pos tableau[], int size);
 void vSnake(Snake *snake, Path *path, Snake *virtualSnake);
 
