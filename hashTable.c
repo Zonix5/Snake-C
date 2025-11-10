@@ -36,12 +36,18 @@ int hashFunction(Node *key) {
  * @param {Node} key - the node to add
  * @param {int} value - the value associated with the node
  */
-void add(HTNode* table[], Node *key, int value) {
+void add(HTNode* table[], Node *key, HTNode pool[], int *poolIndex, int value) {
     int i = hashFunction(key);
-    HTNode *n = table[i];
+    if (*poolIndex >= LIST_MAX_SIZE) {
+        return;
+    }
+
+    HTNode *n = &pool[*poolIndex];
+    (*poolIndex)++;
     n->key = key;
     n->value = value;
     n->next = table[i];
+    table[i] = n;
 }
 
 /**

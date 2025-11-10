@@ -40,8 +40,15 @@ void astar(Snake *snake, Path *path, int tail, int move){
     }
 
     // Pre allouer tout les nodes en memoire et garder un index a celui ou on est
-    Node nodeList[LIST_MAX_SIZE];
-    int nodeListSize = 0;
+    Node nodePool[LIST_MAX_SIZE];
+    int nodePoolSize = 0;
+
+    HTNode closedListPool[HT_MAX_SIZE];
+    int closedListSize = 0;
+
+    // liste pour verifier si un node a deja ete visitÃ©
+    HTNode* closedList[HT_MAX_SIZE] = {NULL};
+
 
     // creation du 1er node
     Node startNode;
@@ -62,14 +69,17 @@ void astar(Snake *snake, Path *path, int tail, int move){
     // liste qui garde toujour le node avec le cout le moin grande en 1er
     Heap minHeap; 
     createHeap(&minHeap, &startNode);
-    // liste pour verifier si un node a deja ete visitÃ©
-    HTNode* closedList[HT_MAX_SIZE] = {NULL};
 
     while(minHeap.size > 0){
         // recuperer le node suivant et l'ajouter a la liste fermÃ©e
         Node *currentNode = extractMin(&minHeap);
-        add(closedList, currentNode, 1);
 
+        if (closedListSize >= HT_MAX_SIZE){
+            path->sizePath = 0;
+            return;
+        }
+        add(closedList, currentNode, closedListPool, &closedListSize, 1);
+        
         // verifier que on est dans les limite de taille
         if (currentNode->gCost >= maxG){
             continue;
@@ -124,11 +134,11 @@ void astar(Snake *snake, Path *path, int tail, int move){
             }
 
             // recuperer un pointeur pour un nouveau node
-            if (nodeListSize >= LIST_MAX_SIZE){
+            if (nodePoolSize >= LIST_MAX_SIZE){
                 exit(EXIT_FAILURE);
             }
-            Node *newNode = &nodeList[nodeListSize];
-            nodeListSize++;
+            Node *newNode = &nodePool[nodePoolSize];
+            nodePoolSize++;
 
             // ajouter les informations au nouveau node
             newNode->pos.x = next.x;

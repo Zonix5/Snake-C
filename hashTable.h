@@ -17,7 +17,7 @@ struct HTNode {
 
 int hashFunction(Node *key);
 int compareNode(Node *nodeA, Node *nodeB);
-void add(HTNode *table[], Node *key, int value);
+void add(HTNode* table[], Node *key, HTNode pool[], int *poolSize, int value);
 int retrieve(HTNode *table[], Node *key);
 
 #ifdef __cplusplus
