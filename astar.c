@@ -4,6 +4,7 @@
 #include "minHeap.h"
 #include "hashTable.h"
 #include "utils.h"
+#include "debugLogging.h"
 
 /**
  * Return the manhattan distance of 2 position in a 2D space
@@ -15,6 +16,66 @@
 int manhattanDistance(Pos a, Pos b){
     return abs(b.x - a.x) + abs(b.y - a.y);
 }
+
+void getPos(Snake *snake, Node *node, Pos outputPos[], int *outputPosSize, int ouputPosMaxSize, int move){
+    if (SNAKE_MAX_SIZE > ouputPosMaxSize){
+        print("Exit: astar.c line 22");
+        exit(EXIT_FAILURE);
+    }
+    Node *currentNode = node;
+    Path path;
+    path.sizePath = 0;
+    while(currentNode->parent != NULL){
+        // remonter les node precedent et mettre leur direction dans la liste
+        path.sizePath++;
+        path.arrPos[path.sizePath-1] = currentNode->direction;
+        currentNode = currentNode->parent;
+    }
+    // inverser l'ordre de la liste pour etre dans le bon sens
+    int startIndex = 0;
+    int endIndex = path.sizePath-1;
+    while (startIndex < endIndex){
+        Direction temp = path.arrPos[startIndex];
+        path.arrPos[startIndex] = path.arrPos[endIndex];
+        path.arrPos[endIndex] = temp;
+        startIndex++;
+        endIndex--;
+    }
+    
+    for (int i = 0; i < snake->snakeSize; i++){
+        outputPos[i] = snake->snakePosition[i];
+    }
+    
+    *outputPosSize = snake->snakeSize;
+
+    for (int i = 0; i < path.sizePath; i++){
+        Pos newPos;
+        newPos.x = outputPos[0].x + path.arrPos[i].x;
+        newPos.y = outputPos[0].y + path.arrPos[i].y; 
+        if (move == 0){
+            (*outputPosSize)++;
+            if (*outputPosSize >= ouputPosMaxSize){
+                print("Exit: astar.c line 58");
+                exit(EXIT_FAILURE);
+            }
+        }
+        for (int i = *outputPosSize - 1; i > 0; i--){
+            outputPos[i] = outputPos[i - 1];
+        }
+        outputPos[0] = newPos;
+    }
+
+}
+
+static Node nodePool[LIST_MAX_SIZE];
+static HTNode closedListPool[HT_MAX_SIZE];
+// Pre allouer tout les nodes en memoire et garder un index a celui ou on est
+
+    // liste pour verifier si un node a deja ete visitÃ©
+static HTNode* closedList[HT_MAX_SIZE] = {NULL};
+
+int nodePoolSize = 0;
+int closedListSize = 0;
 
 /**
  * Find a path to the food using the A* algorithm
@@ -30,6 +91,17 @@ void astar(Snake *snake, Path *path, int tail, int move){
     int maxG = snake->length * snake->width * 2;
     // position de depart : la tete du serpent
     Pos start = snake->snakePosition[0];
+
+    Pos snakePosition[SNAKE_MAX_SIZE];
+    int snakePositionSize = 0;
+
+    nodePoolSize = 0;
+    closedListSize = 0;
+
+    for (int i = 0; i < HT_MAX_SIZE; i++){
+        closedList[i] = NULL;
+    }
+
     Pos goal;
     if (tail){
         // on va vers la queue
@@ -39,23 +111,9 @@ void astar(Snake *snake, Path *path, int tail, int move){
         goal = snake->foodPosition;
     }
 
-    // Pre allouer tout les nodes en memoire et garder un index a celui ou on est
-    Node nodePool[LIST_MAX_SIZE];
-    int nodePoolSize = 0;
-
-    HTNode closedListPool[HT_MAX_SIZE];
-    int closedListSize = 0;
-
-    // liste pour verifier si un node a deja ete visitÃ©
-    HTNode* closedList[HT_MAX_SIZE] = {NULL};
-
-
     // creation du 1er node
     Node startNode;
     startNode.pos = start;
-    for (int i = 0; i < snake->snakeSize; i++){
-        startNode.snakePos[i] = snake->snakePosition[i];
-    } 
     startNode.direction.x = 0;
     startNode.direction.y = 0;
     startNode.parent = NULL;
@@ -75,8 +133,8 @@ void astar(Snake *snake, Path *path, int tail, int move){
         Node *currentNode = extractMin(&minHeap);
 
         if (closedListSize >= HT_MAX_SIZE){
-            path->sizePath = 0;
-            return;
+            print("Exit: astar.c line 134");
+            exit(EXIT_FAILURE);
         }
         add(closedList, currentNode, closedListPool, &closedListSize, 1);
         
@@ -120,6 +178,8 @@ void astar(Snake *snake, Path *path, int tail, int move){
             }
             return;
         }
+
+        getPos(snake, currentNode, snakePosition, &snakePositionSize, SNAKE_MAX_SIZE, move);
         // pour chaque direction (haut, bas, droite, gauche) une nouvelle position
         for (int i = 0; i < 4; i++){
             Pos next = {currentNode->pos.x + directions[i].x, currentNode->pos.y + directions[i].y};
@@ -127,14 +187,16 @@ void astar(Snake *snake, Path *path, int tail, int move){
             if (next.x < 0 || next.x >= snake->width || next.y < 0 || next.y >= snake->length){
                 continue;
             }
-
             // verifier que la nouvelle position n'est pas dans le corps du serpent (queue exclue car il avance)
-            if (isIn(next, currentNode->snakePos, currentNode->snakeSize-1)){
+            if (isIn(next, snakePosition, currentNode->snakeSize-1)){
                 continue;
             }
 
             // recuperer un pointeur pour un nouveau node
+            print("Node Pool Size:");
+            printInt(nodePoolSize);
             if (nodePoolSize >= LIST_MAX_SIZE){
+                print("Exit: astar.c line 195");
                 exit(EXIT_FAILURE);
             }
             Node *newNode = &nodePool[nodePoolSize];
@@ -143,10 +205,6 @@ void astar(Snake *snake, Path *path, int tail, int move){
             // ajouter les informations au nouveau node
             newNode->pos.x = next.x;
             newNode->pos.y = next.y;
-
-            for (int j = 0; j < currentNode->snakeSize; j++){
-                newNode->snakePos[j] = currentNode->snakePos[j];
-            }
             
             newNode->direction = directions[i];
             newNode->parent = currentNode;
@@ -158,11 +216,6 @@ void astar(Snake *snake, Path *path, int tail, int move){
             if (move == 0){
                 newNode->snakeSize++;
             }
-
-            for (int i = newNode->snakeSize - 1; i > 0; i--){
-                newNode->snakePos[i] = newNode->snakePos[i - 1];
-            }
-            newNode->snakePos[0] = newNode->pos;
 
             // verifier si le nouveau node n'a pas deja ete visite
             if (retrieve(closedList, newNode) != 0){
@@ -189,7 +242,6 @@ void astar(Snake *snake, Path *path, int tail, int move){
                 removeNode(&minHeap, j);
                 insert(&minHeap, newNode);
             }
-
         }
     }
     return;

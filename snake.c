@@ -23,7 +23,7 @@ void run(Snake *snake, Direction direction){
     if (ateFood){
         snake->score += 1;
         snake->foodOnBoard = 0;
-        snake->snakeSize += 1;  // Augmenter AVANT move
+        snake->snakeSize += 1;
     }
 
     // DÃ©caler le serpent (en gardant la queue si ateFood)
@@ -32,7 +32,7 @@ void run(Snake *snake, Direction direction){
     }
     snake->snakePosition[0] = snake->snakeHead;
     
-    if (!snake->foodOnBoard){
+    if (snake->foodOnBoard == 0){
         setFood(snake);
     }
 }
@@ -95,15 +95,15 @@ int isIn(Pos position, Pos array[], int size){
  */
 void setFood(Snake *snake) {
   Pos position;
-  do {
-    position.x = esp_random() % snake->length;
-    position.y = esp_random() % snake->width;
-    if (snake->score == 256-3){
-            snake->dead = 1;
-            position.x = -1;
-            position.y = -1;
-            break;
-        }
+    do {
+      position.x = esp_random() % snake->length;
+      position.y = esp_random() % snake->width;
+      if (snake->score == 256-3){
+              snake->dead = 1;
+              position.x = -1;
+              position.y = -1;
+              break;
+       }
   } while (isIn(position, snake->snakePosition, snake->snakeSize));
   snake->foodPosition = position;
   snake->foodOnBoard = 1;

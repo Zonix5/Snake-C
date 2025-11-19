@@ -8,7 +8,7 @@
 #define BRIGHTNESS 3
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
-
+Adafruit_NeoPixel led = Adafruit_NeoPixel(1, 48, NEO_GRB + NEO_KHZ800);
 Snake snake;
 Direction direction = { 1, 0 };
 
@@ -24,6 +24,16 @@ void setup() {
   strip.begin();
   strip.clear();
   strip.show();
+  
+  led.setBrightness(BRIGHTNESS);
+  led.begin();
+  led.clear();
+  led.setPixelColor(0, 255, 255, 255);
+  led.show();
+  delay(1000);
+  led.setPixelColor(0, 0, 0, 0);
+  led.show();
+
 }
 
 void loop() {
@@ -32,7 +42,7 @@ void loop() {
       for (int i = 0; i < path.sizePath; i++){
         run(&snake, path.arrPos[i]);
         updateScreen();
-        delay(100);
+        delay(50);
       }
       Serial.print("Score:");
       Serial.println(snake.score);
@@ -42,7 +52,7 @@ void loop() {
     Serial.print("Mort : ");
     Serial.println(snake.score);
   }
-  delay(100);
+  delay(50); //100
 }
 
 

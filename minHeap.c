@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "minHeap.h"
 #include "utils.h"
+#include "debugLogging.h"
 
 void createHeap(Heap *h, Node *startNode){
     h->arr[0].node = startNode;
@@ -13,7 +14,11 @@ void createHeap(Heap *h, Node *startNode){
 }
 
 void insert(Heap* h, Node *node){
-    if (h->size < h->capacity){
+    if (h->size >= h->capacity){
+        print("Exit: minHeap.c line 18");
+        exit(EXIT_FAILURE);
+    }
+    else{
         h->arr[h->size].fCost = node->fCost;
         h->arr[h->size].node = node;
         insertHelper(h, h->size);
@@ -40,6 +45,7 @@ void removeNode(Heap* h, int index) {
 Node* extractMin(Heap* h){
     Node *deleteItem = NULL;
     if (h->size == 0){
+        print("Exit: minHeap.c line 48");
         exit(EXIT_FAILURE);
     }
     deleteItem = h->arr[0].node;

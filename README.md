@@ -1,3 +1,5 @@
-Autonomous snake game with A* algorithm
-for ESP32-S3 microcontroller with Neopixel board
-not working yet
+# Autonomous snake game with A*
+
+ESP32-S3 microcontroller with Neopixel board
+
+Not working yet

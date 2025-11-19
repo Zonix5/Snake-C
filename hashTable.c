@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "hashTable.h"
 #include "utils.h"
+#include "debugLogging.h"
 
 // https://www.geeksforgeeks.org/dsa/hash-table-data-structure/
 
@@ -39,7 +40,8 @@ int hashFunction(Node *key) {
 void add(HTNode* table[], Node *key, HTNode pool[], int *poolIndex, int value) {
     int i = hashFunction(key);
     if (*poolIndex >= LIST_MAX_SIZE) {
-        return;
+        print("Exit: hashTable.c line 43");
+        exit(EXIT_FAILURE);
     }
 
     HTNode *n = &pool[*poolIndex];

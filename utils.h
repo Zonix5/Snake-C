@@ -1,6 +1,6 @@
 #ifndef DEF_UTILS
 #define DEF_UTILS
-#define LIST_MAX_SIZE 50
+#define LIST_MAX_SIZE 5000
 #define SNAKE_MAX_SIZE 256
 
 #ifdef __cplusplus
@@ -23,14 +23,14 @@ extern Direction directions[4];
 
 typedef struct Path Path;
 struct Path{
-    Direction arrPos[LIST_MAX_SIZE];
+    Direction arrPos[SNAKE_MAX_SIZE];
     int sizePath;
 };
 
 typedef struct Node Node;
 struct Node{
     Pos pos;
-    Pos snakePos[SNAKE_MAX_SIZE];
+    // Pos snakePos[SNAKE_MAX_SIZE];
     Direction direction;
     Node *parent;
     int snakeSize;
