@@ -17,11 +17,7 @@ int manhattanDistance(Pos a, Pos b){
     return abs(b.x - a.x) + abs(b.y - a.y);
 }
 
-void getPos(Snake *snake, Node *node, Pos outputPos[], int *outputPosSize, int ouputPosMaxSize, int move){
-    if (SNAKE_MAX_SIZE > ouputPosMaxSize){
-        print("Exit: astar.c line 22");
-        exit(EXIT_FAILURE);
-    }
+void getPos(Snake *snake, Node *node, Pos outputPos[], int *outputPosSize, int move){
     Node *currentNode = node;
     Path path;
     path.sizePath = 0;
@@ -54,7 +50,7 @@ void getPos(Snake *snake, Node *node, Pos outputPos[], int *outputPosSize, int o
         newPos.y = outputPos[0].y + path.arrPos[i].y; 
         if (move == 0){
             (*outputPosSize)++;
-            if (*outputPosSize >= ouputPosMaxSize){
+            if (*outputPosSize >= SNAKE_MAX_SIZE){
                 print("Exit: astar.c line 58");
                 exit(EXIT_FAILURE);
             }
@@ -179,7 +175,7 @@ void astar(Snake *snake, Path *path, int tail, int move){
             return;
         }
 
-        getPos(snake, currentNode, snakePosition, &snakePositionSize, SNAKE_MAX_SIZE, move);
+        getPos(snake, currentNode, snakePosition, &snakePositionSize, move);
         // pour chaque direction (haut, bas, droite, gauche) une nouvelle position
         for (int i = 0; i < 4; i++){
             Pos next = {currentNode->pos.x + directions[i].x, currentNode->pos.y + directions[i].y};
@@ -193,8 +189,6 @@ void astar(Snake *snake, Path *path, int tail, int move){
             }
 
             // recuperer un pointeur pour un nouveau node
-            print("Node Pool Size:");
-            printInt(nodePoolSize);
             if (nodePoolSize >= LIST_MAX_SIZE){
                 print("Exit: astar.c line 195");
                 exit(EXIT_FAILURE);

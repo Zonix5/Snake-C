@@ -4,7 +4,7 @@
 #include "pathfinding.h"
 
 #define PIN 14
-#define NUM_LEDS 256
+#define NUM_LEDS SNAKE_MAX_SIZE
 #define BRIGHTNESS 3
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
@@ -42,6 +42,9 @@ void loop() {
       for (int i = 0; i < path.sizePath; i++){
         run(&snake, path.arrPos[i]);
         updateScreen();
+        if (snake.dead){
+          break;
+        }
         delay(50);
       }
       Serial.print("Score:");
@@ -65,7 +68,7 @@ void updateScreen() {
   int b = 0;
   for (int i = 0; i < snake.snakeSize; i++) {
     index = snake.snakePosition[i].y * snake.width + snake.snakePosition[i].x;
-    coef = (float)(snake.snakeSize - 1 - i) / (float)snake.snakeSize - 1;
+    coef = (float)(snake.snakeSize - 1 - i) / ((float)snake.snakeSize - 1);
     g = (int)(255 * coef);
     b = 255 - (int)(255 * coef);
     strip.setPixelColor(index, r, g, b);

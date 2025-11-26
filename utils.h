@@ -1,12 +1,16 @@
 #ifndef DEF_UTILS
 #define DEF_UTILS
 #define LIST_MAX_SIZE 5000
-#define SNAKE_MAX_SIZE 256
+
+#define SNAKE_LENGTH 16
+#define SNAKE_WIDTH 16
+
+#define SNAKE_MAX_SIZE SNAKE_LENGTH*SNAKE_WIDTH
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+ 
 typedef struct Pos Pos;
 struct Pos{
     int x;
