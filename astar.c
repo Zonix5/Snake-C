@@ -19,7 +19,7 @@ int manhattanDistance(Pos a, Pos b){
 
 void getPos(Snake *snake, Node *node, Pos outputPos[], int *outputPosSize, int move){
     Node *currentNode = node;
-    Path path;
+    static Path path;
     path.sizePath = 0;
     while(currentNode->parent != NULL){
         // remonter les node precedent et mettre leur direction dans la liste
@@ -45,16 +45,16 @@ void getPos(Snake *snake, Node *node, Pos outputPos[], int *outputPosSize, int m
     *outputPosSize = snake->snakeSize;
 
     for (int i = 0; i < path.sizePath; i++){
-        Pos newPos;
-        newPos.x = outputPos[0].x + path.arrPos[i].x;
-        newPos.y = outputPos[0].y + path.arrPos[i].y; 
         if (move == 0){
-            (*outputPosSize)++;
             if (*outputPosSize >= SNAKE_MAX_SIZE){
                 print("Exit: astar.c line 58");
                 exit(EXIT_FAILURE);
             }
+            (*outputPosSize)++;
         }
+        Pos newPos;
+        newPos.x = outputPos[0].x + path.arrPos[i].x;
+        newPos.y = outputPos[0].y + path.arrPos[i].y; 
         for (int j = *outputPosSize - 1; j > 0; j--){
             outputPos[j] = outputPos[j - 1];
         }
@@ -88,7 +88,7 @@ void astar(Snake *snake, Path *path, int tail, int move){
     // position de depart : la tete du serpent
     Pos start = snake->snakePosition[0];
 
-    Pos snakePosition[SNAKE_MAX_SIZE];
+    static Pos snakePosition[SNAKE_MAX_SIZE];
     int snakePositionSize = 0;
 
     nodePoolSize = 0;
@@ -161,7 +161,7 @@ void astar(Snake *snake, Path *path, int tail, int move){
             if (tail == 0){
                 // verifier que il y a un acces a la queue, empeche le serpent de s'enfermÃ© sur lui meme
                 Snake virtualSnake;
-                Path tailPath;
+                static Path tailPath;
                 vSnake(snake, path, &virtualSnake);
                 astar(&virtualSnake, &tailPath, 1, 0);
     
@@ -204,12 +204,11 @@ void astar(Snake *snake, Path *path, int tail, int move){
             newNode->parent = currentNode;
 
             if (move == 0){
-                newNode->snakeSize = snakePositionSize + 1;
+                newNode->snakeSize = currentNode->snakeSize + 1;
             } else {
-                newNode->snakeSize = snakePositionSize;
+                newNode->snakeSize = currentNode->snakeSize;
             }
-
-            newNode->snakeSize = currentNode->snakeSize;
+            
             newNode->gCost = currentNode->gCost + 1;
             newNode->hCost = manhattanDistance(newNode->pos, goal);
             newNode->fCost = newNode->gCost + newNode->hCost;

@@ -1,6 +1,6 @@
 #ifndef DEF_UTILS
 #define DEF_UTILS
-#define LIST_MAX_SIZE 5000
+#define LIST_MAX_SIZE 4500
 
 #define SNAKE_LENGTH 16
 #define SNAKE_WIDTH 16

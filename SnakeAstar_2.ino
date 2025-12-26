@@ -12,7 +12,7 @@ Adafruit_NeoPixel led = Adafruit_NeoPixel(1, 48, NEO_GRB + NEO_KHZ800);
 Snake snake;
 Direction direction = { 1, 0 };
 
-Path path ;
+static Path path ;
 
 void updateScreen();
 
