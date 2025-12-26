@@ -45,11 +45,10 @@ void getPos(Snake *snake, Node *node, Pos outputPos[], int *outputPosSize, int m
     *outputPosSize = snake->snakeSize;
 
     for (int i = 0; i < path.sizePath; i++){
+        if (*outputPosSize >= SNAKE_MAX_SIZE){
+            move = 1;
+        }
         if (move == 0){
-            if (*outputPosSize >= SNAKE_MAX_SIZE){
-                print("Exit: astar.c line 58");
-                exit(EXIT_FAILURE);
-            }
             (*outputPosSize)++;
         }
         Pos newPos;
@@ -178,17 +177,19 @@ void astar(Snake *snake, Path *path, int tail, int move){
         getPos(snake, currentNode, snakePosition, &snakePositionSize, move);
         // pour chaque direction (haut, bas, droite, gauche) une nouvelle position
         for (int i = 0; i < 4; i++){
-            Pos next = {currentNode->pos.x + directions[i].x, currentNode->pos.y + directions[i].y};
-            // verifier que on est dans les limites de la matrice de led
-            if (next.x < 0 || next.x >= snake->width || next.y < 0 || next.y >= snake->length){
+            Pos next = {currentNode->pos.x + directions[i].x, 
+                currentNode->pos.y + directions[i].y};
+    
+            // Vérifier les limites
+            if (next.x < 0 || next.x >= snake->width || 
+                next.y < 0 || next.y >= snake->length){
                 continue;
             }
-            // verifier que la nouvelle position n'est pas dans le corps du serpent (queue exclue car il avance)
-            if (isIn(next, snakePosition, snakePositionSize-1)){
+            
+            if (isIn(next, snakePosition, snakePositionSize - 1)){
                 continue;
             }
 
-            // recuperer un pointeur pour un nouveau node
             if (nodePoolSize >= LIST_MAX_SIZE){
                 print("Exit: astar.c line 195");
                 exit(EXIT_FAILURE);
@@ -202,13 +203,13 @@ void astar(Snake *snake, Path *path, int tail, int move){
             
             newNode->direction = directions[i];
             newNode->parent = currentNode;
-
-            if (move == 0){
-                newNode->snakeSize = currentNode->snakeSize + 1;
-            } else {
-                newNode->snakeSize = currentNode->snakeSize;
-            }
+            newNode->snakeSize = snakePositionSize;
             
+            
+            if (move == 0){
+                newNode->snakeSize++;
+            }
+
             newNode->gCost = currentNode->gCost + 1;
             newNode->hCost = manhattanDistance(newNode->pos, goal);
             newNode->fCost = newNode->gCost + newNode->hCost;

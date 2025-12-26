@@ -23,7 +23,7 @@ void longestPath(Snake *snake, Path *path){
         }
         Snake newSnake; 
         static Path direction ;
-        direction.sizePath = 0;
+        direction.sizePath = 1;
         direction.arrPos[0] = directions[i];
         vSnake(snake, &direction, &newSnake);
 

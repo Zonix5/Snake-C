@@ -1,6 +1,6 @@
 #ifndef DEF_UTILS
 #define DEF_UTILS
-#define LIST_MAX_SIZE 4500
+#define LIST_MAX_SIZE 4250
 
 #define SNAKE_LENGTH 16
 #define SNAKE_WIDTH 16
@@ -27,7 +27,7 @@ extern Direction directions[4];
 
 typedef struct Path Path;
 struct Path{
-    Direction arrPos[SNAKE_MAX_SIZE];
+    Direction arrPos[SNAKE_MAX_SIZE*2];
     int sizePath;
 };
 

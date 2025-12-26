@@ -13,8 +13,7 @@
  */
 int compareNode(Node *nodeA, Node *nodeB){
     return (nodeA->pos.x == nodeB->pos.x && 
-            nodeA->pos.y == nodeB->pos.y &&
-            nodeA->gCost == nodeB->gCost);
+            nodeA->pos.y == nodeB->pos.y);
 }
 
 /**
@@ -26,7 +25,6 @@ int hashFunction(Node *key) {
     unsigned int hash = 0;
     hash = hash * 33 + key->pos.x;
     hash = hash * 33 + key->pos.y;
-    hash = hash * 33 + key->gCost;
     return hash % HT_MAX_SIZE;
 }
 
