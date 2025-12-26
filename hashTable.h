@@ -1,6 +1,6 @@
 #ifndef DEF_HASHTABLE
 #define DEF_HASHTABLE
-#define HT_MAX_SIZE 503
+#define HT_MAX_SIZE 5003
 
 #include "utils.h"
 

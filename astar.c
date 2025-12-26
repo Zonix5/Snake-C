@@ -55,8 +55,8 @@ void getPos(Snake *snake, Node *node, Pos outputPos[], int *outputPosSize, int m
                 exit(EXIT_FAILURE);
             }
         }
-        for (int i = *outputPosSize - 1; i > 0; i--){
-            outputPos[i] = outputPos[i - 1];
+        for (int j = *outputPosSize - 1; j > 0; j--){
+            outputPos[j] = outputPos[j - 1];
         }
         outputPos[0] = newPos;
     }
@@ -184,7 +184,7 @@ void astar(Snake *snake, Path *path, int tail, int move){
                 continue;
             }
             // verifier que la nouvelle position n'est pas dans le corps du serpent (queue exclue car il avance)
-            if (isIn(next, snakePosition, currentNode->snakeSize-1)){
+            if (isIn(next, snakePosition, snakePositionSize-1)){
                 continue;
             }
 
@@ -202,14 +202,17 @@ void astar(Snake *snake, Path *path, int tail, int move){
             
             newNode->direction = directions[i];
             newNode->parent = currentNode;
+
+            if (move == 0){
+                newNode->snakeSize = snakePositionSize + 1;
+            } else {
+                newNode->snakeSize = snakePositionSize;
+            }
+
             newNode->snakeSize = currentNode->snakeSize;
             newNode->gCost = currentNode->gCost + 1;
             newNode->hCost = manhattanDistance(newNode->pos, goal);
             newNode->fCost = newNode->gCost + newNode->hCost;
-
-            if (move == 0){
-                newNode->snakeSize++;
-            }
 
             // verifier si le nouveau node n'a pas deja ete visite
             if (retrieve(closedList, newNode) != 0){

@@ -98,7 +98,7 @@ void setFood(Snake *snake) {
     do {
       position.x = esp_random() % snake->length;
       position.y = esp_random() % snake->width;
-      if (snake->score == 256-3){
+      if (snake->score == SNAKE_MAX_SIZE - 3){
               snake->dead = 1;
               position.x = -1;
               position.y = -1;
@@ -162,7 +162,7 @@ void move(Snake *snake){
 int isDead(Snake *snake){
     return (
     isIn(snake->snakeHead, snake->snakePosition, snake->snakeSize - 1) ||
-    snake->snakeSize == 256 ||
+    snake->snakeSize == SNAKE_MAX_SIZE ||
     (snake->snakeHead.x < 0 || snake->snakeHead.x >= snake->width || snake->snakeHead.y < 0 || snake->snakeHead.y >= snake->length));
 }
 
