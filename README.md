@@ -17,4 +17,4 @@ Notes:
 - Connect Neopixel **GND** to a GND GPIO
 - Connect Neopixel **DIN** to GPIO 14
 
-- Set your matrix size **in utils.h**, by modifying **SNAKE_LENGTH** and **SNAKE_WIDTH** to your corresponding matrix length and width (by default 16 by 16)
+- Set your matrix size in **utils.h**, by modifying **SNAKE_LENGTH** and **SNAKE_WIDTH** to your corresponding matrix length and width (by default 16 by 16)
