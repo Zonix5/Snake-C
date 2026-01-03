@@ -1,10 +1,6 @@
 # Autonomous snake game with A*
 
-ESP32-S3 microcontroller with Neopixel matrix
-
-Notes:
-- The game's logic is functional, but it still crashes due to memory errors.
-- Tested with ESP32-S3-WROOM-1 N16R8 and Neopixel matrix 16*16.
+For ESP32-S3 microcontroller with Neopixel matrix
 
 ## Requirements
 - Arduino IDE
@@ -18,3 +14,6 @@ Notes:
 - Connect Neopixel **DIN** to GPIO 14
 
 - Set your matrix size in **utils.h**, by modifying **SNAKE_LENGTH** and **SNAKE_WIDTH** to your corresponding matrix length and width (by default 16 by 16)
+
+## Notes
+- Tested with ESP32-S3-WROOM-1 N16R8 and Neopixel matrix 16*16.
