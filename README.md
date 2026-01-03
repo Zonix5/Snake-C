@@ -17,3 +17,6 @@ For ESP32-S3 microcontroller with Neopixel matrix
 
 ## Notes
 - Tested with ESP32-S3-WROOM-1 N16R8 and Neopixel matrix 16*16.
+
+## License
+[MIT](LICENSE)
