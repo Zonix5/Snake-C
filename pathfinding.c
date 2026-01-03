@@ -32,7 +32,7 @@ void longestPath(Snake *snake, Path *path){
         }
 
         static Path pathToTail ;
-        astar(&newSnake, &pathToTail, 1, 0);
+        astar(&newSnake, &pathToTail, 1, 0, 0, 0);
         if (pathToTail.sizePath > 0 && pathToTail.sizePath > dis){
             path->arrPos[0] = directions[i];
             path->sizePath = 1;
@@ -49,7 +49,7 @@ void longestPath(Snake *snake, Path *path){
  * @param {Path} path - path struct where the path founded is writed
  */
 void findPath(Snake *snake, Path *path){
-    astar(snake, path, 0, 1);
+    astar(snake, path, 0, 1, 0, 0);
     if (path->sizePath > 0){
         return;
     }

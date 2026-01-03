@@ -62,15 +62,9 @@ void getPos(Snake *snake, Node *node, Pos outputPos[], int *outputPosSize, int m
 
 }
 
+// Pre allouer tout les nodes en memoire
 static Node nodePool[LIST_MAX_SIZE];
 static HTNode closedListPool[HT_MAX_SIZE];
-// Pre allouer tout les nodes en memoire et garder un index a celui ou on est
-
-    // liste pour verifier si un node a deja ete visitÃ©
-static HTNode* closedList[HT_MAX_SIZE] = {NULL};
-
-int nodePoolSize = 0;
-int closedListSize = 0;
 
 /**
  * Find a path to the food using the A* algorithm
@@ -80,18 +74,20 @@ int closedListSize = 0;
  * @param {Path} path - path struct where the path founded is writed
  * @param {int} tail - set the goal at the end of the snake
  * @param {int} move - set if the snake grow or not when it move 
+ * @param {int} nodePoolSize - current index of the node pool
+ * @param {int} closedListSize - current index of the closed list pool
  */
-void astar(Snake *snake, Path *path, int tail, int move){
+void astar(Snake *snake, Path *path, int tail, int move, int nodePoolSize, int closedListSize){
     // definir la taille maximum du path : 2 fois la taille de la matrice de led
     int maxG = snake->length * snake->width * 2;
     // position de depart : la tete du serpent
     Pos start = snake->snakePosition[0];
 
+    // liste pour verifier si un node a deja ete visitÃ©
+    HTNode* closedList[HT_MAX_SIZE] = {NULL};
+
     static Pos snakePosition[SNAKE_MAX_SIZE];
     int snakePositionSize = 0;
-
-    nodePoolSize = 0;
-    closedListSize = 0;
 
     for (int i = 0; i < HT_MAX_SIZE; i++){
         closedList[i] = NULL;
@@ -162,7 +158,7 @@ void astar(Snake *snake, Path *path, int tail, int move){
                 Snake virtualSnake;
                 static Path tailPath;
                 vSnake(snake, path, &virtualSnake);
-                astar(&virtualSnake, &tailPath, 1, 0);
+                astar(&virtualSnake, &tailPath, 1, 0, nodePoolSize, closedListSize);
     
                 if (tailPath.sizePath > 0){
                     return;
@@ -204,7 +200,6 @@ void astar(Snake *snake, Path *path, int tail, int move){
             newNode->direction = directions[i];
             newNode->parent = currentNode;
             newNode->snakeSize = snakePositionSize;
-            
             
             if (move == 0){
                 newNode->snakeSize++;
