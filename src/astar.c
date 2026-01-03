@@ -1,10 +1,10 @@
 #include <stdlib.h>
-#include "astar.h"
-#include "snake.h"
-#include "minHeap.h"
-#include "hashTable.h"
-#include "utils.h"
-#include "debugLogging.h"
+#include "include\astar.h"
+#include "include\snake.h"
+#include "include\minHeap.h"
+#include "include\hashTable.h"
+#include "include\utils.h"
+#include "include\debugLogging.h"
 
 /**
  * Return the manhattan distance of 2 position in a 2D space

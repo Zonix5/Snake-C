@@ -1,7 +1,7 @@
 #include <stdlib.h>
-#include "hashTable.h"
-#include "utils.h"
-#include "debugLogging.h"
+#include "include\hashTable.h"
+#include "include\utils.h"
+#include "include\debugLogging.h"
 
 // https://www.geeksforgeeks.org/dsa/hash-table-data-structure/
 

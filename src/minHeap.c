@@ -1,9 +1,9 @@
 // source : https://www.geeksforgeeks.org/c/c-program-to-implement-min-heap/
 
 #include <stdlib.h>
-#include "minHeap.h"
-#include "utils.h"
-#include "debugLogging.h"
+#include "include\minHeap.h"
+#include "include\utils.h"
+#include "include\debugLogging.h"
 
 void createHeap(Heap *h, Node *startNode){
     h->arr[0].node = startNode;

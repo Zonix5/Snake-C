@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <stdlib.h>
-#include "snake.h"
-#include "pathfinding.h"
+#include "include\snake.h"
+#include "include\pathfinding.h"
 
 #define PIN 14
 #define NUM_LEDS SNAKE_MAX_SIZE

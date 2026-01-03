@@ -1,8 +1,8 @@
 #include <stdlib.h>
-#include "pathfinding.h"
-#include "astar.h"
-#include "snake.h"
-#include "utils.h"
+#include "include\pathfinding.h"
+#include "include\astar.h"
+#include "include\snake.h"
+#include "include\utils.h"
 
 /**
  * Find the direction where the path to the tail is the longest

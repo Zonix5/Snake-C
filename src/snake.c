@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "esp_random.h"
-#include "snake.h"
-#include "utils.h"
+#include "include\snake.h"
+#include "include\utils.h"
 
 /**
  * moves the snake forward
