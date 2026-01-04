@@ -10,6 +10,7 @@ extern "C" {
 
 void longestPath(Snake *snake, Path *path);
 void findPath(Snake *snake, Path *path);
+void oneWay(Snake* snake, Path* path);
 
 #ifdef __cplusplus
 }

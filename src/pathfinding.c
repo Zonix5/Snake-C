@@ -43,12 +43,44 @@ void longestPath(Snake *snake, Path *path){
     return;
 }
 
+void oneWay(Snake* snake, Path* path){
+    path->sizePath = 0;
+    Pos next = {0, 0};
+    Direction lastDirection = {0, 0};
+    Pos headPosition = snake->snakePosition[0];
+    int counter = 0;
+    for (int i = 0; i < 4; i++){
+        next.x = headPosition.x + directions[i].x;
+        next.y = headPosition.y + directions[i].y;
+
+        if (next.x < 0 || next.x >= snake->width || next.y < 0 || next.y >= snake->length){
+            continue;
+        }
+
+        if (isIn(next, snake->snakePosition, snake->snakeSize - 1)){
+            continue;
+        }
+
+        lastDirection = directions[i];
+        counter++;
+    }
+    if (counter == 1) {
+        path->sizePath = 1;
+        path->arrPos[0] = lastDirection;
+    }
+}
+
 /**
  * Find a path to the food if it exist, else the longest path to the tail else the direction of the snake
  * @param {Snake} snake -
  * @param {Path} path - path struct where the path founded is writed
  */
 void findPath(Snake *snake, Path *path){
+    oneWay(snake, path);
+    if (path->sizePath > 0){
+        return;
+    }
+
     astar(snake, path, 0, 1, 0, 0);
     if (path->sizePath > 0){
         return;
