@@ -39,13 +39,12 @@ void loop() {
       }
       Serial.print("Score:");
       Serial.println(snake.score);
-      // updateScreen();
     }
   else {
-    Serial.print("Mort : ");
+    Serial.print("Dead:");
     Serial.println(snake.score);
+    delay(50);
   }
-  delay(50); //100
 }
 
 
