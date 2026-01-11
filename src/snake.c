@@ -45,8 +45,8 @@ void initSnake(Snake *snake){
     snake->dead = 0;
     snake->score = 0;
 
-    snake->length = 16;
-    snake->width = 16;
+    snake->length = SNAKE_LENGTH;
+    snake->width = SNAKE_WIDTH;
 
     snake->direction.x = 0;
     snake->direction.y = 1;
