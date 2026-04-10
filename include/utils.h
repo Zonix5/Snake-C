@@ -36,7 +36,6 @@ struct Path{
 typedef struct Node Node;
 struct Node{
     Pos pos;
-    // Pos snakePos[SNAKE_MAX_SIZE];
     Direction direction;
     Node *parent;
     uint16_t snakeSize;

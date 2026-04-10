@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "include\astar.h"
 #include "include\snake.h"
 #include "include\minHeap.h"
@@ -38,9 +39,7 @@ void getPos(Snake *snake, Node *node, Pos outputPos[], int *outputPosSize, int m
         endIndex--;
     }
     
-    for (int i = 0; i < snake->snakeSize; i++){
-        outputPos[i] = snake->snakePosition[i];
-    }
+    memcpy(outputPos, snake->snakePosition, snake->snakeSize * sizeof(Pos));
     
     *outputPosSize = snake->snakeSize;
 
@@ -89,9 +88,7 @@ void astar(Snake *snake, Path *path, int tail, int move, int nodePoolSize, int c
     static Pos snakePosition[SNAKE_MAX_SIZE];
     int snakePositionSize = 0;
 
-    for (int i = 0; i < HT_MAX_SIZE; i++){
-        closedList[i] = NULL;
-    }
+    memset(closedList, 0, sizeof(closedList));
 
     Pos goal;
     if (tail){

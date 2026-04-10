@@ -1,5 +1,12 @@
 #include <stdlib.h>
-#include "esp_random.h"
+#include <string.h>
+#ifdef CONFIG_IDF_TARGET_ESP32S3
+    #include "esp_random.h"
+    #define RANDOM() esp_random()
+#else
+    #include <stdlib.h>
+    #define RANDOM() rand()
+#endif
 #include "include\snake.h"
 #include "include\utils.h"
 
@@ -96,8 +103,8 @@ int isIn(Pos position, Pos array[], int size){
 void setFood(Snake *snake) {
   Pos position;
     do {
-      position.x = esp_random() % snake->length;
-      position.y = esp_random() % snake->width;
+      position.x = RANDOM() % snake->width;
+      position.y = RANDOM() % snake->length;
       if (snake->score == SNAKE_MAX_SIZE - 3){
               snake->dead = 1;
               position.x = -1;
@@ -174,20 +181,9 @@ int isDead(Snake *snake){
  */
 void vSnake(Snake *snake, Path *path, Snake *virtualSnake){
 
-    virtualSnake->dead = snake->dead;
-    virtualSnake->score = snake->score;
-    virtualSnake->foodOnBoard = snake->foodOnBoard;
-    virtualSnake->length = snake->length;
-    virtualSnake->width = snake->width;
-    virtualSnake->snakeSize = snake->snakeSize;
-    virtualSnake->direction = snake->direction;
-    virtualSnake->oldDirection = snake->oldDirection;
-    virtualSnake->snakeHead = snake->snakeHead;
-    virtualSnake->foodPosition = snake->foodPosition;
+    memcpy(virtualSnake, snake, sizeof(Snake));
 
-    for (int i = 0; i < snake->snakeSize; i++){
-        virtualSnake->snakePosition[i] = snake->snakePosition[i];
-    }
+    memcpy(virtualSnake->snakePosition, snake->snakePosition, snake->snakeSize * sizeof(Pos));
 
     for (int i = 0; i < path->sizePath; i++){
         run(virtualSnake, path->arrPos[i]);

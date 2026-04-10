@@ -21,8 +21,16 @@ void longestPath(Snake *snake, Path *path){
         if (next.x < 0 || next.x >= snake->width || next.y < 0 || next.y >= snake->length){
             continue;
         }
+
+        if (isIn(next, snake->snakePosition, snake->snakeSize - 1)){
+            continue;
+        }
+
+        int lowerBound = manhattanDistance(next, snake->snakePosition[snake->snakeSize - 1]);
+        if (lowerBound <= dis) continue;
+
         Snake newSnake; 
-        static Path direction ;
+        static Path direction;
         direction.sizePath = 1;
         direction.arrPos[0] = directions[i];
         vSnake(snake, &direction, &newSnake);
@@ -31,7 +39,7 @@ void longestPath(Snake *snake, Path *path){
             continue;
         }
 
-        static Path pathToTail ;
+        static Path pathToTail;
         astar(&newSnake, &pathToTail, 1, 0, 0, 0);
         if (pathToTail.sizePath > 0 && pathToTail.sizePath > dis){
             path->arrPos[0] = directions[i];

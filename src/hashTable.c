@@ -22,9 +22,7 @@ int compareNode(Node *nodeA, Node *nodeB){
  * @return {int} - index of the node
  */
 int hashFunction(Node *key) {
-    unsigned int hash = 0;
-    hash = hash * 33 + key->pos.x;
-    hash = hash * 33 + key->pos.y;
+    int hash = key->pos.x * SNAKE_LENGTH + key->pos.y;
     return hash % HT_MAX_SIZE;
 }
 
